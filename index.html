@@ -15,13 +15,25 @@
         <h1>Minesweeper</h1>
     </header>
     <section id="score-board">
-        <div>Bombs: <span id="bombs-left"></span> </div>
-        <div>Time: <span id="time-left"></span> </div>
+        <div>
+            <h4>Mines:</h4>
+            <span id="mines-left">0</span>
+        </div>
+
+        <!-- <hr width=".5" size="40"> -->
+
         <button onclick="location.reload()">Reset</button>
+
+        <hr width=".5" size="40">
+        <div>
+            <h4>Time:</h4>
+            <span id="time-left"></span>
+        </div>
     </section>
     <main>
         <div id="game-board"></div>
     </main>
     <script src="main.js"></script>
 </body>
+
 </html>
