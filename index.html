@@ -19,13 +19,19 @@
             <h4>Mines:</h4>
             <span id="mines-left">0</span>
         </div>
-
         <button onclick="location.reload()">Reset</button>
-
         <div>
             <h4>Time:</h4>
             <span id="time-left"></span>
         </div>
+    </section>
+    <section id="board-specs">
+        <form name="myForm" onsubmit="makeBoard()">
+            <input type="text" name="width" placeholder="width" size="5">
+            <input type="text" name="height" placeholder="height" size="5">
+            <input type="text" name="mines" placeholder="mines" size="5">
+            <input type="submit" name="submit">
+        </form>
     </section>
     <main>
         <div id="game-board"></div>
