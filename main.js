@@ -1,14 +1,20 @@
 const gameBoard = document.getElementById("game-board");
 const bombArray = [];
 const boardArray = [];
-// let fwidth = document.forms["myForm"]["width"].value;
-// let fheight = document.forms["myForm"]["height"].value;
-// let fmines = document.forms["myForm"]["mines"].value;
-//
+// let fwidth;
+// let fheight;
+// let fmines;
+// function getInfo() {
+//     fwidth = document.forms.myForm.fwidth.value;
+//     fheight = document.forms.myForm.fheight.value;
+//     fmines = document.forms.myForm.fmines.value;
+//     return fwidth, fheight, fmines;
+// }
+// getInfo();
+
 // constructor function for board
-//
-function makeBoard(width, height, mines) {
-    let firstClick = false;
+function Board(width, height, mines) {
+    let click = 0;
     this.width = width;
     this.height = height;
     this.minesQty = mines;
@@ -17,7 +23,7 @@ function makeBoard(width, height, mines) {
     let tileNumber = 0;
     // creates an array of random locations for bombs, pushes to bombArray for reference
     for (i = 0; i < this.minesQty; i++) {
-        var randomNum = Math.floor(Math.random() * (this.totalCells + 1));
+        var randomNum = Math.round(Math.random() * (this.totalCells + 1));
         if (!bombArray.includes(randomNum) && randomNum !== 0) {
             bombArray.push(randomNum);
         } else {
@@ -35,19 +41,21 @@ function makeBoard(width, height, mines) {
             for (let x = 0; x < width; x++) {
                 let tile = document.createElement("div");
                 tile.classList.add("cell");
-                tileNumber = tileNumber + 1
+                tileNumber = tileNumber + 1;
                 tile.dataset.tileNumber = tileNumber;
                 tile.dataset.row = y;
                 tile.dataset.col = x;
                 row.appendChild(tile);
                 boardArray[y].push(tileNumber);
-                //Event Handler
+                // adds event listeners
                 tile.addEventListener("click", this.handleClickLeft);
+                tile.addEventListener("contextmenu", this.handleClickRight, false);
             }
             gameBoard.appendChild(row);
         }
-        
+
     };
+    // Left Click
     this.handleClickLeft = function () {
         let cell = event.target;
         let typeOfCell = cell.className;
@@ -66,9 +74,25 @@ function makeBoard(width, height, mines) {
         };
         //adds empty class if not in bombArray
         if (!bombArray.includes(Number(cell.dataset.tileNumber))) {
-            cell.classList.add("empty")
-            firstClick = true;
+            cell.classList.add("empty");
+            click++;
+            board.timer();
+            console.log(click);
         }
+    };
+    // Right Click
+    this.handleClickRight = function (event) {
+        event.preventDefault();
+        if (event.target.className === "cell") {
+            if (board.minesQty > 0) {
+            event.target.classList.add("flag");
+            document.getElementById("mines-left").innerHTML = board.minesQty -= 1
+        }
+        } else if (event.target.className === "cell flag") {
+            event.target.classList.remove("flag");
+            document.getElementById("mines-left").innerHTML = board.minesQty += 1
+        }
+        return false;
     };
     // this.checkNeighbors = function () {
     //     var queue = [];
@@ -80,25 +104,23 @@ function makeBoard(width, height, mines) {
     //         queue.shift();
     //     };
     // };
+    // timer function
     this.timer = function () {
-        if (firstClick === true) {
-        var start = new Date().getTime();
-        var elapsed = '0.0';
-        window.setInterval(function () {
-            var time = new Date().getTime() - start;
-            elapsed = Math.floor(time / 100) / 10;
-            if (Math.round(elapsed) == elapsed) {
-                elapsed += '.0';
-            }
-            document.getElementById("time-left").innerHTML = elapsed;
-        }, 100);
-    }
+        if (click === 1) {
+            var start = new Date().getTime();
+            var elapsed = '0.0';
+            window.setInterval(function () {
+                var time = new Date().getTime() - start;
+                elapsed = Math.floor(time / 100) / 10;
+                if (Math.round(elapsed) == elapsed) {
+                    elapsed += '.0';
+                }
+                document.getElementById("time-left").innerHTML = elapsed;
+            }, 100);
+        }
     }
 };
 
-// function that creates timer and adds to HTML
-
-// call the functions here
-var board = new makeBoard(8, 8, 10);
+// 
+var board = new Board(8, 8, 10);
 board.drawBoard();
-board.timer();

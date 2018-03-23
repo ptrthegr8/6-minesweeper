@@ -60,6 +60,10 @@
     background-color: orange;
 }
 
+.flag {
+    background-image: url(filled-flag-256.png);
+}
+
 /* Standard Elements */
 
 body {
