@@ -26,12 +26,12 @@
         </div>
     </section>
     <section id="board-specs">
-        <form id="form1" name="myForm">
-            <input type="text" name="fwidth" placeholder="width" size="5">
-            <input type="text" name="fheight" placeholder="height" size="5">
-            <input type="text" name="fmines" placeholder="mines" size="5">
-            <button onclick="getInfo()">Submit</button>
-        </form>
+        <div>
+        <input id="fwidth" type="number" name="fwidth" placeholder="width" size="5" value="8">
+        <input id="fheight" type="number" name="fheight" placeholder="height" size="5" value="8">
+        <input id="fmines" type="number" name="fmines" placeholder="mines" size="5" value="10">
+        <input type="button" value="Submit" onclick="board.drawBoard()">
+        </div>
     </section>
     <main>
         <div id="game-board"></div>
